@@ -163,30 +163,17 @@ public class JUnitPlatformProviderTest
         invokeProvider( provider, null );
 
         InOrder inOrder = inOrder( runListener );
-        inOrder
-                        .verify( runListener )
-                        .testSetStarting(
-                                        new SimpleReportEntry(
-                                                        JUnitPlatformProvider.class.getName(),
-                                                        TestClass1.class.getName() ) );
-        inOrder
-                        .verify( runListener )
-                        .testSetCompleted(
-                                        new SimpleReportEntry(
-                                                        JUnitPlatformProvider.class.getName(),
-                                                        TestClass1.class.getName() ) );
-        inOrder
-                        .verify( runListener )
-                        .testSetStarting(
-                                        new SimpleReportEntry(
-                                                        JUnitPlatformProvider.class.getName(),
-                                                        TestClass2.class.getName() ) );
-        inOrder
-                        .verify( runListener )
-                        .testSetCompleted(
-                                        new SimpleReportEntry(
-                                                        JUnitPlatformProvider.class.getName(),
-                                                        TestClass2.class.getName() ) );
+        inOrder.verify( runListener )
+                .testSetStarting( new SimpleReportEntry( TestClass1.class.getName(), null ) );
+
+        inOrder.verify( runListener )
+                .testSetCompleted( new SimpleReportEntry( TestClass1.class.getName(), null ) );
+
+        inOrder.verify( runListener )
+                .testSetStarting( new SimpleReportEntry( TestClass2.class.getName(), null ) );
+
+        inOrder.verify( runListener )
+                .testSetCompleted( new SimpleReportEntry( TestClass2.class.getName(), null ) );
 
         assertThat( executionListener.summaries ).hasSize( 1 );
         TestExecutionSummary summary = executionListener.summaries.get( 0 );
