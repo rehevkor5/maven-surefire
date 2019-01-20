@@ -19,11 +19,11 @@ package org.apache.maven.plugin.surefire.runorder;
  * under the License.
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,10 +68,10 @@ public class RunEntryStatisticsMapTest
 
     private InputStream getStatisticsFile()
     {
-        String content = "0,17,org.apache.maven.plugin.surefire.runorder.RunEntryStatisticsMapTest$A,testA\n" +
-            "2,42,org.apache.maven.plugin.surefire.runorder.RunEntryStatisticsMapTest$B,testB\n" +
-            "1,100,org.apache.maven.plugin.surefire.runorder.RunEntryStatisticsMapTest$C,testC\n";
-        return new StringBufferInputStream( content );
+        String content = "0,17,org.apache.maven.plugin.surefire.runorder.RunEntryStatisticsMapTest$A,testA\n"
+                + "2,42,org.apache.maven.plugin.surefire.runorder.RunEntryStatisticsMapTest$B,testB\n"
+                + "1,100,org.apache.maven.plugin.surefire.runorder.RunEntryStatisticsMapTest$C,testC\n";
+        return new ByteArrayInputStream( content.getBytes( UTF_8 ) );
     }
 
     public void testSerialize()
