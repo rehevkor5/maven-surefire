@@ -183,6 +183,10 @@ def buildProcess(String stageKey, String jdkName, String jdkTestName, String mvn
         }
 
         if (currentBuild.result != null && currentBuild.result != 'SUCCESS') {
+            if (fileExists('surefire-api/target')) {
+                zip(zipFile: "surefire-api--${stageKey}.zip", dir: 'surefire-api/target', archive: true)
+            }
+
             if (fileExists('maven-failsafe-plugin/target/it')) {
                 zip(zipFile: "maven-failsafe-plugin--${stageKey}.zip", dir: 'maven-failsafe-plugin/target/it', archive: true)
             }
