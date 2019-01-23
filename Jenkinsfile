@@ -31,7 +31,7 @@ properties(
 )
 
 final def oses = ['linux':'ubuntu && !H24', 'windows':'Windows']
-final def mavens = ['3.6.x', '3.5.x', '3.3.x', '3.2.x']
+final def mavens = ['3.6.x', '3.2.x']
 // all non-EOL versions and the first EA
 final def jdks = [12, 11, 8, 7]
 
