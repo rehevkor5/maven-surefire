@@ -56,7 +56,7 @@ oses.eachWithIndex { osMapping, indexOfOs ->
 
             if (label == null || jdkTestName == null || mvnName == null) {
                 println "Skipping ${stageKey} as unsupported by Jenkins Environment."
-                return;
+                return
             }
 
             println "${stageKey}  ==>  Label: ${label}, JDK: ${jdkTestName}, Maven: ${mvnName}."
@@ -118,7 +118,7 @@ timeout(time: 12, unit: 'HOURS') {
 def buildProcess(String stageKey, String jdkName, String jdkTestName, String mvnName, goals, options, mavenOpts, boolean makeReports) {
     cleanWs()
     try {
-        def mvnLocalRepoDir = null
+        def mvnLocalRepoDir
         if (isUnix()) {
             sh 'mkdir -p .m2'
             mvnLocalRepoDir = "${pwd()}/.m2"
@@ -164,6 +164,18 @@ def buildProcess(String stageKey, String jdkName, String jdkTestName, String mvn
             }
         }
     } finally {
+
+        if (currentBuild.result != null && currentBuild.result != 'SUCCESS') {
+            if (fileExists('maven-failsafe-plugin/target/it')) {
+                zip(zipFile: "maven-failsafe-plugin--${stageKey}.zip", dir: 'maven-failsafe-plugin/target/it', archive: true)
+            }
+
+            if (fileExists('surefire-its/target')) {
+                zip(zipFile: "surefire-its--${stageKey}.zip", dir: 'surefire-its/target', archive: true)
+            }
+
+            archiveArtifacts(artifacts: "*--${stageKey}.zip", allowEmptyArchive: true, onlyIfSuccessful: false)
+        }
         // clean up after ourselves to reduce disk space
         cleanWs()
     }
